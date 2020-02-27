@@ -123,13 +123,3 @@ network = word_vectors["network", , drop = FALSE]
 cos_sim = sim2(x = word_vectors, y = phosphate, method = "cosine", norm = "none")
 head(sort(cos_sim[,1], decreasing = TRUE), 50)
 ```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
