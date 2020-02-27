@@ -3,7 +3,8 @@ Word vector representations scraped from neuroscience abstracts using the text2v
 
 ## Methods ##
 
-I used Columbia CLIO to search for academic articles related to the human limbic system, quantum effects in the brain, and artificial intelligence. Rather than use 'big data' to analyze millions of abstracts, I chose to find word associations between five articles:
+1. I used Columbia CLIO to search for academic articles related to the human limbic system, quantum effects in the brain, and artificial intelligence. 
+2. Rather than use 'big data' to analyze millions of abstracts, I chose to find word associations between five articles, listed below.
 ---
 ## References ##
 
@@ -26,5 +27,5 @@ Tshitoyan, V., Dagdelen, J., Weston, L., Dunn, A., Rong, Z., Kononova, O., Perss
 Nature, 571, 95–98. DOI: 10.1038/s41586-019-1335-8
 
 ---
-I used the 'Text2Vec' implimintation of GloVe Word Embeddings by Dmitriy Selivanov.
+I used the 'Text2Vec' implementation of GloVe Word Embeddings by Dmitriy Selivanov.
 https://cran.r-project.org/web/packages/text2vec/vignettes/glove.html
