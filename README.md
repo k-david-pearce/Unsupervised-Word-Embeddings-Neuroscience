@@ -1,11 +1,11 @@
-# Unsupervised-Word-Embeddings-Neuroscience-Abstracts
+## Unsupervised-Word-Embeddings-Neuroscience-Abstracts
 Word vector representations scraped from neuroscience abstracts using the text2vec package in R.
 
-## Methods
+## Methods ##
 
 I used Columbia CLIO to search for academic articles related to the human limbic system, quantum effects in the brain, and artificial intelligence. Rather than use 'big data' to analyze millions of abstracts, I chose to find word associations between five articles:
 ---
-## References
+## References ##
 
 1. Okihide Hikosaka; Susan R. Sesack; Lucas Lecourtier; and Paul D. Shepard (2008). Habenula: Crossroad between the Basal Ganglia and the Limbic System. Journal of Neuroscience 28(46), 11825-11829.
 
