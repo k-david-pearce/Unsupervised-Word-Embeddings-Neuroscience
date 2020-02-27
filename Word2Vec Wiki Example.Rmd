@@ -1,0 +1,75 @@
+---
+title: "NLT Text2Vec Wiki Paris"
+author: "K. David Pearce"
+date: "2/26/2020"
+output: html_document
+---
+
+## Load the text2vec library
+
+```{r}
+#install.packages("text2vec")
+library(text2vec)
+```
+
+## Read the txt file into a variable
+
+```{r}
+text8_file = "~/text8"
+if (!file.exists(text8_file)){
+  download.file("http://mattmahoney.net/dc/text8.zip", "~/text8.zip")
+  unzip ("~/text8.zip", files = "text8")
+}
+wiki = readLines(text8_file, n = 1, warn = FALSE)
+```
+
+## Create Iterator over Tokens
+
+```{r}
+tokens <- space_tokenizer(wiki)
+```
+## Create vocabulary. Terms will be unigrams (simple words)
+
+```{r}
+it = itoken(tokens, progressbar = FALSE)
+vocab <- create_vocabulary(it)
+vocab <- prune_vocabulary(vocab, term_count_min = 5L)
+```
+
+## Vectorize the Vocabulary; Drop words mentioned < 5 times
+
+```{r}
+vectorizer <- vocab_vectorizer(vocab)
+tcm <- create_tcm(it, vectorizer, skip_grams_window = 5L)
+```
+
+## Create Glove
+
+```{r}
+glove = GlobalVectors$new(rank = 50, x_max = 10)
+```
+
+## Run the Analysis
+
+```{r}
+wv_main = glove$fit_transform(tcm, n_iter = 10, convergence_tol = 0,01, n_threads = 8)
+```
+
+## Analysis produces two vectors, a main and a context
+
+```{r}
+wv_context = glove$components
+```
+
+## Combine the main vector with a transformation of the context
+
+```{r}
+word_vectors = wv_main + t(wv_context)
+```
+
+## What words are closest to "memory?"
+
+```{r}
+memory = word_vectors["memory", , drop = FALSE]
+cos_sim = sim2(x = word_vectors, y = memory, method = "cosine", norm = "12")
+head(sort(cos_sim[,1], decreasing = TRUE), 5)

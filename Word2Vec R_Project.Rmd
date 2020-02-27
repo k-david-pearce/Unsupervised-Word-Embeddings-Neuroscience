@@ -1,0 +1,135 @@
+---
+title: "NLP Text2Vec Neuroscience"
+author: "K. David Pearce"
+date: "2/26/2020"
+output: html_document
+---
+## Methods
+
+I used Columbia CLIO to search for academic articles related to the human limbic system, quantum effects in the brain, and artificial intelligence. Rather than use 'big data' to analyze millions of abstracts, I chose to find word associations between five articles:
+---
+## References
+
+1. Okihide Hikosaka; Susan R. Sesack; Lucas Lecourtier; and Paul D. Shepard (2008). Habenula: Crossroad between the Basal Ganglia and the Limbic System. Journal of Neuroscience 28(46), 11825-11829.
+
+2. Rolls, E. (2015). Limbic systems for emotion and for memory, but no single limbic system. Cortex 62, 119-157.
+
+3. M.W. Swift, M.P.A. Fisher and C.G. Van de Walle (2018). Posner Molecules: From atomic structure to nuclear spins”, Journal of Phys Chem Chem Phys, 20, 12373-12380.
+
+4. C.P. Weingarten, P.M. Doraiswamy and M.P.A. Fisher (2016). A new spin on neural processing: Quantum cognition, , Frontiers in Human Neuroscience 10, 541. 
+
+5. Brenden M. Lake, Tomer D. Ullman, Joshua B. Tenenbaum, Samuel J. Gershman (2017). Building machines that learn and think like people.
+Behavioral and Brain Sciences, 40.
+---
+
+## Read the txt file into a Factor with 3076 levels
+
+```{r}
+quantNeuroTxt <- read.delim("NeuroAbstractsPlusArticles.txt", header = FALSE)
+
+```
+
+## Convert each level into a character vector with 2905 elements
+
+```{r}
+quantNeuroCharacter <- levels(quantNeuroTxt$V1)
+
+#removePunct <- gsub("[[:punct:]]", " ", quantNeuroCharacter)
+#removeNumbers <- gsub('[[:digit:]]+', '', quantNeuroCharacter)
+```
+
+
+## Load the text2vec library
+
+```{r}
+#install.packages("text2vec")
+library(text2vec)
+```
+
+## Create Iterator over Tokens
+
+```{r}
+tokens <- word_tokenizer(quantNeuroCharacter)
+
+```
+
+## Create vocabulary. Terms will be unigrams (simple words)
+
+```{r}
+it = itoken(tokens, progressbar = FALSE)
+vocab <- create_vocabulary(it)
+vocab <- prune_vocabulary(vocab, term_count_min = 5L)
+```
+
+## Vectorize the Vocabulary; Drop words mentioned < 5 times
+
+```{r}
+vectorizer <- vocab_vectorizer(vocab)
+tcm <- create_tcm(it, vectorizer, skip_grams_window = 5L)
+```
+
+## Create Glove
+
+```{r}
+glove = GlobalVectors$new(rank = 50, x_max = 10)
+```
+
+## Run the Analysis
+
+```{r}
+wv_main = glove$fit_transform(tcm, n_iter = 10, convergence_tol = 0,01, n_threads = 8)
+```
+
+## Analysis produces two vectors, a main and a context
+
+```{r}
+wv_context = glove$components
+```
+
+## Combine the main vector with a transformation of the context
+
+```{r}
+word_vectors = wv_main + t(wv_context)
+```
+
+## What words are closest to "memory?"
+
+```{r}
+memory = word_vectors["memory", , drop = FALSE]
+cos_sim = sim2(x = word_vectors, y = memory, method = "cosine", norm = "none")
+head(sort(cos_sim[,1], decreasing = TRUE), 50)
+```
+
+## What words are closest to "phosphate?"
+
+```{r}
+phosphate = word_vectors["phosphate", , drop = FALSE]
+cos_sim = sim2(x = word_vectors, y = phosphate, method = "cosine", norm = "none")
+head(sort(cos_sim[,1], decreasing = TRUE), 50)
+```
+
+## What words are closest to "hippocampus?"
+
+```{r}
+hippocampus = word_vectors["hippocampus", , drop = FALSE]
+cos_sim = sim2(x = word_vectors, y = phosphate, method = "cosine", norm = "none")
+head(sort(cos_sim[,1], decreasing = TRUE), 50)
+```
+
+## What words are closest to "network?"
+
+```{r}
+network = word_vectors["network", , drop = FALSE]
+cos_sim = sim2(x = word_vectors, y = phosphate, method = "cosine", norm = "none")
+head(sort(cos_sim[,1], decreasing = TRUE), 50)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

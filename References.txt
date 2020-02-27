@@ -1,0 +1,10 @@
+1. Okihide Hikosaka; Susan R. Sesack; Lucas Lecourtier; and Paul D. Shepard (2008). Habenula: Crossroad between the Basal Ganglia and the Limbic System. Journal of Neuroscience 28(46), 11825-11829.
+
+2. Rolls, E. (2015). Limbic systems for emotion and for memory, but no single limbic system. Cortex 62, 119-157.
+
+3. M.W. Swift, M.P.A. Fisher and C.G. Van de Walle (2018). Posner Molecules: From atomic structure to nuclear spins”, Journal of Phys Chem Chem Phys, 20, 12373-12380.
+
+4. C.P. Weingarten, P.M. Doraiswamy and M.P.A. Fisher (2016). A new spin on neural processing: Quantum cognition, , Frontiers in Human Neuroscience 10, 541. 
+
+5. Brenden M. Lake, Tomer D. Ullman, Joshua B. Tenenbaum, Samuel J. Gershman (2017). Building machines that learn and think like people.
+Behavioral and Brain Sciences, 40.
